@@ -118,6 +118,9 @@ def paddle2Down():
 
 #keybinds
 sc.listen()
+
+#Host controls paddle1 while client controls paddle2
+#both players use W for up and S for down
 if (isHost):
     sc.onkeypress(paddle1Up, "w")
     sc.onkeypress(paddle1Down, "s")
