@@ -1,4 +1,51 @@
 import turtle
+import socket
+import threading
+from os import system, name
+
+def clear():
+    if name == 'nt':
+        _ = system('cls') #windows OS
+    else:
+        _ = system('clear') #other OS
+
+isHost = 'h' == input("Host or Client: ")[0].lower()
+
+if (isHost):
+    clear()
+    HOST_ADDR = input("Enter IP address: ")
+    HOST_PORT = int(input("Enter port: "))
+
+    #start the server
+    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server.bind((HOST_ADDR, HOST_PORT))
+    server.listen(1)
+    clear()
+    print("Give your IP and Port to a friend to begin playing \n")
+    print("IP: " + HOST_ADDR)
+    print("Port: " + str(HOST_PORT) + "\n")
+    print("Waiting for other player to connect...")
+
+    connected = False
+
+    #waits for client to connecct
+    while True:
+        client_socket, client_address = server.accept()
+
+    #waiting for the client is bugged
+    #the game window only appears for the client
+    #the host is stuck on the waiting for player screen.
+
+else:
+    clear()
+    HOST_ADDR = input("Enter IP address: ")
+    HOST_PORT = int(input("Enter port: "))
+    try:
+        client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        client.connect((HOST_ADDR, HOST_PORT))
+    except Exception as e:
+        clear()
+        print("Could not connect")
 
 #screen
 sc = turtle.Screen()
@@ -71,10 +118,12 @@ def paddle2Down():
 
 #keybinds
 sc.listen()
-sc.onkeypress(paddle1Up, "w")
-sc.onkeypress(paddle1Down, "s")
-sc.onkeypress(paddle2Up, "Up")
-sc.onkeypress(paddle2Down, "Down")
+if (isHost):
+    sc.onkeypress(paddle1Up, "w")
+    sc.onkeypress(paddle1Down, "s")
+else:
+    sc.onkeypress(paddle2Up, "w")
+    sc.onkeypress(paddle2Down, "s")
 
 while True:
     sc.update()
