@@ -31,6 +31,7 @@ if (isHost):
     #waits for client to connecct
     while True:
         client_socket, client_address = server.accept()
+        break
 
     #waiting for the client is bugged
     #the game window only appears for the client
