@@ -1,0 +1,21 @@
+Multiplayer Pong
+
+Participants
+-Jacob Stricker
+- A.J. Montgomery
+
+Source code for Pong with Local multiplayer using Turtle
+https://www.geeksforgeeks.org/create-pong-game-using-python-turtle/
+
+GOAL:
+remove the local multiplayer from the source code and add the ability for a host and
+client to play pong with one another via internet connection.
+
+Current Status:
+currently the game is able to connect the Host and Client and then open up a game view
+for both players. The 'W' and 'S' key controls the assigned paddle of the player. Host
+is assigned to the paddle on the left and the client controls the paddle on the right.
+
+To Do:
+Sync up the game views so that both player see the same thing on their windows.
+This includes: paddle position of both players, ball position, and player scores.

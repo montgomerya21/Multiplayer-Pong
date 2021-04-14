@@ -33,20 +33,18 @@ if (isHost):
         client_socket, client_address = server.accept()
         break
 
-    #waiting for the client is bugged
-    #the game window only appears for the client
-    #the host is stuck on the waiting for player screen.
-
 else:
     clear()
-    HOST_ADDR = input("Enter IP address: ")
-    HOST_PORT = int(input("Enter port: "))
-    try:
-        client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client.connect((HOST_ADDR, HOST_PORT))
-    except Exception as e:
-        clear()
-        print("Could not connect")
+    while True:
+        HOST_ADDR = input("Enter IP address: ")
+        HOST_PORT = int(input("Enter port: "))
+        try:
+            client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            client.connect((HOST_ADDR, HOST_PORT))
+            break
+        except Exception as e:
+            clear()
+            print("Could not connect\n")
 
 #screen
 sc = turtle.Screen()
@@ -97,6 +95,8 @@ sketch.write("Player 1 : 0    Player 2 : 0",
              align="center", font=("Courier", 24, "normal"))
 
 #paddle movement
+
+#host paddle
 def paddle1Up():
     y = left_pad.ycor()
     y += 20
@@ -107,6 +107,7 @@ def paddle1Down():
     y -= 20
     left_pad.sety(y)
 
+#client paddle
 def paddle2Up():
     y = right_pad.ycor()
     y += 20
@@ -131,9 +132,15 @@ else:
 
 while True:
     sc.update()
-
-    ball.setx(ball.xcor()+ball.dx)
-    ball.sety(ball.ycor()+ball.dy)
+    if isHost:
+        ball.setx(ball.xcor()+ball.dx)
+        ball.sety(ball.ycor()+ball.dy)
+    
+    #sending position data
+    if (isHost):
+        client_socket.send((str(left_pad.ycor()) + '%' + str(ball.xcor()) + '%' + str(ball.ycor())).encode())
+    else:
+        from_host = client.recv(HOST_PORT).decode()
 
     #border check
     if ball.ycor() > 280:
