@@ -138,9 +138,20 @@ while True:
     
     #sending position data
     if (isHost):
-        client_socket.send((str(left_pad.ycor()) + '%' + str(ball.xcor()) + '%' + str(ball.ycor())).encode())
+        #this will be the send that is used I just commented it out to get the paddles to work with an alternate send
+        #client_socket.send((str(left_pad.ycor()) + '%' + str(ball.xcor()) + '%' + str(ball.ycor())).encode())
+
+        #this is an alternate send that only sends paddle info
+        client_socket.send(str(left_pad.ycor()).encode())
+        player2Update = client_socket.recv(HOST_PORT).decode()
+        right_pad.sety(int(player2Update))
     else:
         from_host = client.recv(HOST_PORT).decode()
+        client.send(str(right_pad.ycor()).encode())
+        updateValues = from_host.split('%')
+        left_pad.sety(int(updateValues[0]))
+        #ball.setx(int(updateValues[1]))
+        #ball.sety(int(updateValues[2]))
 
     #border check
     if ball.ycor() > 280:
