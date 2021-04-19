@@ -132,9 +132,9 @@ else:
 
 while True:
     sc.update()
-    if isHost:
-        ball.setx(ball.xcor()+ball.dx)
-        ball.sety(ball.ycor()+ball.dy)
+    #if isHost:
+    ball.setx(ball.xcor()+ball.dx)
+    ball.sety(ball.ycor()+ball.dy)
     
     #sending position data
     if (isHost):
